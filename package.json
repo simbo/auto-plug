@@ -1,0 +1,23 @@
+{
+  "name": "auto-plug",
+  "description": "Auto-require plugins packages by prefix. (for i.e. Gulp, Grunt or other heavy plugin-dependant packages)",
+  "version": "0.0.0",
+  "author": "Simon Lepel <simbo@simbo.de>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "test": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/simbo/auto-plug.git"
+  },
+  "bugs": {
+    "url": "https://github.com/simbo/auto-plug/issues"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "findup-sync": "^0.2.1",
+    "multimatch": "^1.0.1"
+  }
+}
