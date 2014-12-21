@@ -25,6 +25,7 @@
     "multimatch": "^1.0.1"
   },
   "devDependencies": {
+    "codeclimate-test-reporter": "0.0.4",
     "istanbul": "^0.3.5",
     "mocha": "^2.0.1"
   }
