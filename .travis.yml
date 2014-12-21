@@ -12,6 +12,7 @@ deploy:
   on:
     tags: true
     repo: simbo/auto-plug
+    all_branches: true
 after_script:
 - npm run cover
 - cat coverage/lcov.info | ./node_modules/.bin/codeclimate
