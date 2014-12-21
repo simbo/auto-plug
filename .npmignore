@@ -2,8 +2,10 @@
 # + Project related
 # ==================================================================
 
+.jshintrc
 .editorconfig
 .gitignore
+.travis.yml
 test
 coverage
 

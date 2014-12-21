@@ -10,6 +10,7 @@ deploy:
     secure: Ob9GPaCj3KqIrS318PO5AkIffd4H45NuVtqyR4KHi+Ln7QaLuHKxNcdmoEOoCnhm1GDAS0dNlpbDkqehYWKLF6w3LfYfp6Q8HAtCyVRR5nZTEHUUrEGwl/YV1dosxT/25AhN19GLgC2iE+ZMkXsuYamE2Eb0lVB4LKxNK1qgCXY=
   on:
     tags: true
+    branch: master
 after_script:
   - npm run cover
   - cat coverage/lcov.info | ./node_modules/.bin/codeclimate
