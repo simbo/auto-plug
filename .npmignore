@@ -4,6 +4,8 @@
 
 .editorconfig
 .gitignore
+test
+coverage
 
 # = Project related
 
