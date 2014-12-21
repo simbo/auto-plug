@@ -3,7 +3,10 @@
   "description": "Auto-require plugins packages by prefix. (for i.e. Gulp, Grunt or other heavy plugin-dependant packages)",
   "version": "0.0.0",
   "author": "Simon Lepel <simbo@simbo.de>",
-  "license": "MIT",
+  "license": {
+    "type": "MIT",
+    "url": "http://simbo.mit-license.org/"
+  },
   "private": true,
   "scripts": {
     "test": "./node_modules/.bin/mocha --reporter spec",
