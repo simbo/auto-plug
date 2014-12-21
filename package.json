@@ -7,6 +7,16 @@
     "type": "MIT",
     "url": "http://simbo.mit-license.org/"
   },
+  "keywords": [
+    "require",
+    "load",
+    "plugins",
+    "autoload",
+    "dependencies",
+    "gulp",
+    "gulpfriendly",
+    "grunt"
+  ],
   "scripts": {
     "test": "./node_modules/.bin/mocha --reporter spec",
     "cover": "./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- -R spec",
