@@ -1,7 +1,7 @@
 auto-plug
 =========
 
-  > Auto-require plugins packages by prefix. (for i.e. Gulp, Grunt or other
+  > Auto-require plugins packages by prefix. (for i.e. [Gulp](https://github.com/gulpjs/gulp), [Grunt](https://github.com/gruntjs/grunt) or other
   > heavy plugin-dependant packages)
 
 [![npm Package Version](https://img.shields.io/npm/v/auto-plug.svg?style=flat-square)](https://www.npmjs.com/package/auto-plug)
@@ -22,12 +22,12 @@ $ npm install auto-plug
 
 ## Usage
 
-***auto-plug*** will return a object containing the required module exports. If your config data contains package names like `foo-this` and `foo-that`, they can be autoloaded by passing the prefix `foo` and after that accessed by `plugins.this()`or `plugins.that()`.
+***auto-plug*** will return a object containing the required module exports. If your config data contains package names like `foo-this` and `foo-that`, they can be auto-loaded by `plugins = require('auto-load')('foo')` and then accessed by `plugins.this()`or `plugins.that()`.
 
 You can do this:
 
 ``` javascript
-var plugins = require('auto-plug')('myprefix');
+var plugins = require('auto-plug')('foo');
 ```
 
 or that:
@@ -90,6 +90,16 @@ var metalsmith = require('metalsmith')
         .use(metalsmithPlugins.someMetalsmithThing())
         .use(metalsmithPlugins.someOtherMetalsmithThing())
         .build();
+```
+
+
+### Tip
+
+If you already loaded your package.json's data, pass it as config option to speed up things:
+
+``` javascript
+var pkg = require(process.cwd() + '/package.json'),
+    plugins = require('auo-plug')({ prefix: 'foo', config: pkg });
 ```
 
 
