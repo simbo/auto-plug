@@ -1,7 +1,7 @@
 auto-plug
 =========
 
-  > Auto-require plugins packages by prefix. (for i.e. [Gulp](https://github.com/gulpjs/gulp), [Grunt](https://github.com/gruntjs/grunt) or other
+  > Auto-require plugin packages by prefix. (for i.e. [Gulp](https://github.com/gulpjs/gulp), [Grunt](https://github.com/gruntjs/grunt) or other
   > heavy plugin-dependant packages)
 
 [![npm Package Version](https://img.shields.io/npm/v/auto-plug.svg?style=flat-square)](https://www.npmjs.com/package/auto-plug)
@@ -22,26 +22,20 @@ $ npm install auto-plug
 
 ## Usage
 
-***auto-plug*** will return a object containing the required module exports. If your config data contains package names like `foo-this` and `foo-that`, they can be auto-loaded by `plugins = require('auto-load')('foo')` and then accessed by `plugins.this()`or `plugins.that()`.
-
-You can do this:
+***auto-plug*** will return an object containing the required module exports. 
+If your config data (package.json) contains package names like `foo-this` and
+`foo-that`, they can be autoloaded by
 
 ``` javascript
-var plugins = require('auto-plug')('foo');
+var plugins = require('auto-plug')('foo')`
 ```
 
-or that:
+and then accessed by `plugins.this()`or `plugins.that()`.
+
+Instead of a simple prefix string you can also set [custom options](#options):
 
 ``` javascript
-var plugins = require('auto-plug')({ OPTIONS });
-```
-
-and of course also this:
-
-``` javascript
-var autoPlug = require('auto-plug'),
-    fooPlugins = autoPlug('foo'),
-    barPlugins = autoPlug('bar');
+var plugins = require('auto-plug')({ prefix: 'foo', lazy: false });
 ```
 
 
@@ -107,32 +101,41 @@ var pkg = require(process.cwd() + '/package.json'),
 
 All options are optional.
 
-  - `prefix` - (default: `gulp`)  
+  - `prefix`  
+    (default: `gulp`)  
     can be used to quickly define `pattern` and `replaceExpr` at once (see [default options](#default-options))
 
-  - `pattern` - (default: `[prefix + '-*', prefix + '.*']`)  
+  - `pattern`  
+    (default: `[prefix + '-*', prefix + '.*']`)  
     a globbing pattern to find packages in config for require
 
-  - `replaceExpr` - (default: `new RegExp('^' + prefix + '(-|\\.)')`)  
+  - `replaceExpr`  
+    (default: `new RegExp('^' + prefix + '(-|\\.)')`)  
     a regular expression for what shall be removed from a package name when adding to container object
 
-  - `scope` - (default: `['dependencies', 'devDependencies', 'peerDependencies']`)  
-    which keys in config opject contain packages to require
+  - `scope`  
+    (default: `['dependencies', 'devDependencies', 'peerDependencies']`)  
+    which keys in config object contain packages to require
 
-  - `config` - (default: current package's package.json data)  
+  - `config`  
+    (default: current package's package.json data)  
     the config where auto-plug will look for packages to require; can be a plain object or a string containing a path to require
 
-  - `requireFn` - (default: `require`)  
+  - `requireFn`  
+    (default: `require`)  
     the function to be used for requiring packages
 
-  - `camelize` - (default: `true`)  
+  - `camelize`  
+    (default: `true`)  
     whether package names should be converted to camelcase when adding to container object or not
 
-  - `lazy` - (default: `true`)  
-    whether packages should be lazy-loaded (loaded when called for the first time) or when calling auto-plug
+  - `lazy`  
+    (default: `true`)  
+    whether packages should be lazy-loaded (loaded when called for the first time) or directly when calling auto-plug
 
-  - `rename` - (default: `{}`)  
-    a plain object for custom renaming; keys should contain original package names and values the rename string
+  - `rename`  
+    (default: `{}`)  
+    a plain object for custom renaming; keys are original package names and values the respective rename string
 
 
 ### Default options
