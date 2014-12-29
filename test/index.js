@@ -37,8 +37,8 @@ describe('auto-plug', function() {
 
     it('should throw an error if it can\'t find given config file', function() {
         assert.throws(function() {
-            autoPlug({ config: 'this-can-not-be-found.json' })
-        }, /Cannot find module 'this-can-not-be-found.json'/);
+            autoPlug({ config: 'this/path/does/not/exist.json' })
+        }, /Could not require given config file: 'this\/path\/does\/not\/exist.json'/);
     });
 
     it('should accept a single string as quick configuration', function() {
