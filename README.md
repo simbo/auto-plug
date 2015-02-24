@@ -99,7 +99,7 @@ var pkg = require(process.cwd() + '/package.json'),
 
 ## Options
 
-All options are optional.
+You either have to define a 'prefix' or a 'pattern' and 'replaceExp'. All other options are optional.
 
   - `prefix`  
     can be used to quickly define `pattern` and `replaceExpr` at once (see [default options](#default-options))
