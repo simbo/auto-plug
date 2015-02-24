@@ -1,7 +1,7 @@
 {
   "name": "auto-plug",
   "description": "Auto-require plugin packages by prefix. (for i.e. Gulp, Grunt or other heavy plugin-dependent packages)",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "author": "Simon Lepel <simbo@simbo.de>",
   "license": {
     "type": "MIT",
