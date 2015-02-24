@@ -10,35 +10,53 @@ var autoPlug = (function() {
     };
     var proxyquire = require('proxyquire').noCallThru();
     return proxyquire('..', {
-            'gulp-foo': wrapInFunc({ name: 'foo' }),
-            'gulp-bar': wrapInFunc({ name: 'bar' }),
-            'gulp-foo-bar': wrapInFunc({ name: 'foo-bar' }),
+            'bob-foo': wrapInFunc({ name: 'foo' }),
+            'bob-bar': wrapInFunc({ name: 'bar' }),
+            'bob-foo-bar': wrapInFunc({ name: 'foo-bar' }),
             'jack-foo': wrapInFunc({ name: 'jack-foo' }),
-            'gulp-insert': {
+            'bob-insert': {
                 'append':  wrapInFunc({ name: 'insert.append' }),
                 'wrap':   wrapInFunc({ name: 'insert.wrap' })
             },
-            'gulp.baz': wrapInFunc({ name: 'baz' }),
+            'bob.baz': wrapInFunc({ name: 'baz' }),
             'findup-sync': function() { return null; }
         });
 })();
 
 describe('auto-plug', function() {
 
-    it('should find its package\'s package.json and return a plain object', function() {
-        assert({}, require('..')());
+    it('should find parent package\'s package.json and return a plain object', function() {
+        assert({}, require('..')('bob'));
     });
 
     it('should throw an error if it can\'t find a package.json', function() {
         assert.throws(function() {
-            autoPlug()
+            autoPlug('bob')
         }, /Could not find dependencies. Do you have a package.json file in your project?/);
     });
 
     it('should throw an error if it can\'t find given config file', function() {
         assert.throws(function() {
-            autoPlug({ config: 'this/path/does/not/exist.json' })
+            autoPlug({
+                prefix: 'bob',
+                config: 'this/path/does/not/exist.json'
+            })
         }, /Could not require given config file: 'this\/path\/does\/not\/exist.json'/);
+    });
+
+    it('should throw an error if neither prefix nor pattern and replaceExp options are set', function() {
+        assert.throws(function() {
+            autoPlug()
+        }, / Neither a prefix option is set, nor replaceExp or pattern options are valid./);
+    });
+
+    it('should throw an error if neither a prefix option is set nor pattern and replaceExp options are valid', function() {
+        assert.throws(function() {
+            autoPlug({
+                pattern: true,
+                replaceExp: true
+            })
+        }, / Neither a prefix option is set, nor replaceExp or pattern options are valid./);
     });
 
     it('should accept a single string as quick configuration', function() {
@@ -52,13 +70,14 @@ var commonTests = function(lazy) {
 
     it('should automagically load packages as defined', function() {
         var ap = autoPlug({
+            prefix: 'bob',
             lazy: lazy,
             config: {
                 dependencies: {
-                    'gulp-foo': '1.0.0',
-                    'gulp-bar': '*',
-                    'gulp-insert': '*',
-                    'gulp.baz': '*'
+                    'bob-foo': '1.0.0',
+                    'bob-bar': '*',
+                    'bob-insert': '*',
+                    'bob.baz': '*'
                 }
             }
         });
@@ -87,7 +106,7 @@ var commonTests = function(lazy) {
             config: {
                 dependencies: {
                     'jack-foo': '1.0.0',
-                    'gulp-bar': '*'
+                    'bob-bar': '*'
                 }
             }
         });
@@ -105,7 +124,7 @@ var commonTests = function(lazy) {
             config: {
                 dependencies: {
                     'jack-foo': '1.0.0',
-                    'gulp-bar': '*'
+                    'bob-bar': '*'
                 }
             }
         });
@@ -117,11 +136,12 @@ var commonTests = function(lazy) {
 
     it('should allow camelizing to be turned off', function() {
         var ap = autoPlug({
+            prefix: 'bob',
             lazy: lazy,
             camelize: false,
             config: {
                 dependencies: {
-                    'gulp-foo-bar': '*'
+                    'bob-foo-bar': '*'
                 }
             }
         });
@@ -132,10 +152,11 @@ var commonTests = function(lazy) {
 
     it('should camelize plugin names by default', function() {
         var ap = autoPlug({
+            prefix: 'bob',
             lazy: lazy,
             config: {
                 dependencies: {
-                    'gulp-foo-bar': '*'
+                    'bob-foo-bar': '*'
                 }
             }
         });
@@ -146,14 +167,15 @@ var commonTests = function(lazy) {
 
     it('should allow something to be completely renamed', function() {
         var ap = autoPlug({
+            prefix: 'bob',
             lazy: lazy,
             config: {
                 dependencies: {
-                    'gulp-foo': '1.0.0'
+                    'bob-foo': '1.0.0'
                 }
             },
             rename: {
-                'gulp-foo': 'bar'
+                'bob-foo': 'bar'
             }
         });
         assert.deepEqual(ap.bar(), {
@@ -163,13 +185,14 @@ var commonTests = function(lazy) {
 
     it('should allow a scope override', function() {
         var ap = autoPlug({
+            prefix: 'bob',
             lazy: lazy,
             config: {
                 dependencies: {
-                    'gulp-foo': '1.0.0'
+                    'bob-foo': '1.0.0'
                 },
                 devDependencies: {
-                    'gulp-foo-bar': '1.0.0'
+                    'bob-foo-bar': '1.0.0'
                 }
             },
             scope: ['dependencies', 'baz']
@@ -187,10 +210,11 @@ describe('auto-plug (without lazy loading)', function() {
     before(function() {
         spy = sinon.spy();
         ap = autoPlug({
+            prefix: 'bob',
             lazy: false,
             config: {
                 dependencies: {
-                    'gulp-insert': '*'
+                    'bob-insert': '*'
                 }
             },
             requireFn: function() {
@@ -210,10 +234,11 @@ describe('auto-plug (with lazy loading)', function() {
     before(function() {
         spy = sinon.spy();
         ap = autoPlug({
+            prefix: 'bob',
             lazy: true,
             config: {
                 dependencies: {
-                    'gulp-insert': '*'
+                    'bob-insert': '*'
                 }
             },
             requireFn: function() {

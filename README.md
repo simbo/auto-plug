@@ -2,7 +2,7 @@ auto-plug
 =========
 
   > Auto-require plugin packages by prefix. (for i.e. [Gulp](https://github.com/gulpjs/gulp), [Grunt](https://github.com/gruntjs/grunt) or other
-  > heavy plugin-dependant packages)
+  > heavy plugin-dependent packages)
 
 [![npm Package Version](https://img.shields.io/npm/v/auto-plug.svg?style=flat-square)](https://www.npmjs.com/package/auto-plug)
 [![MIT License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://simbo.mit-license.org)
@@ -41,12 +41,12 @@ var plugins = require('auto-plug')({ prefix: 'foo', lazy: false });
 
 ### with Gulp
 
-As `gulp` is the default value for the option `prefix`, you don't have to pass any options when using gulp:
+Just set the prefix option to 'gulp':
 
 ``` javascript
 // Gulpfile.js
 var gulp = require('gulp'),
-    gulpPlugins = require('auto-plug')();
+    gulpPlugins = require('auto-plug')('gulp');
 gulp.task('default', function() {
     return gulp
         .src('some/glob')
@@ -102,7 +102,6 @@ var pkg = require(process.cwd() + '/package.json'),
 All options are optional.
 
   - `prefix`  
-    (default: `gulp`)  
     can be used to quickly define `pattern` and `replaceExpr` at once (see [default options](#default-options))
 
   - `pattern`  
@@ -142,7 +141,6 @@ All options are optional.
 
 ```javascript
 {
-    prefix: 'gulp',
     pattern: [prefix + '-*', prefix + '.*'],
     replaceExpr: new RegExp('^' + prefix + '(-|\\.)'),
     scope: ['dependencies', 'devDependencies', 'peerDependencies'],
