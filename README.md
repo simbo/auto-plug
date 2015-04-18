@@ -113,7 +113,7 @@ You either have to define a 'prefix' or a 'pattern' and 'replaceExp'. All other 
     a regular expression for what shall be removed from a package name when adding to container object
 
   - `scope`  
-    (default: `['dependencies', 'devDependencies', 'peerDependencies']`)  
+    (default: `['dependencies', 'devDependencies']`)  
     which keys in config object contain packages to require
 
   - `config`  
@@ -143,7 +143,7 @@ You either have to define a 'prefix' or a 'pattern' and 'replaceExp'. All other 
 {
     pattern: [prefix + '-*', prefix + '.*'],
     replaceExpr: new RegExp('^' + prefix + '(-|\\.)'),
-    scope: ['dependencies', 'devDependencies', 'peerDependencies'],
+    scope: ['dependencies', 'devDependencies'],
     config: findup('package.json', {cwd: parentDir}),
     requireFn: require,
     camelize: true,
