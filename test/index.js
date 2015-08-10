@@ -13,13 +13,13 @@ var autoPlug = (function() {
     return proxyquire('..', {
             'bob-foo': wrapInFunc({name: 'foo'}),
             'bob-bar': wrapInFunc({name: 'bar'}),
-            'bob-foo-bar': wrapInFunc({ name: 'foo-bar' }),
-            'jack-foo': wrapInFunc({ name: 'jack-foo' }),
+            'bob-foo-bar': wrapInFunc({name: 'foo-bar'}),
+            'jack-foo': wrapInFunc({name: 'jack-foo'}),
             'bob-insert': {
-                'append':  wrapInFunc({ name: 'insert.append' }),
-                'wrap':   wrapInFunc({ name: 'insert.wrap' })
+                'append':  wrapInFunc({name: 'insert.append'}),
+                'wrap':   wrapInFunc({name: 'insert.wrap'})
             },
-            'bob.baz': wrapInFunc({ name: 'baz' }),
+            'bob.baz': wrapInFunc({name: 'baz'}),
             'findup-sync': function() { return null; }
         });
 })();
@@ -32,7 +32,7 @@ describe('auto-plug', function() {
 
     it('should throw an error if it can\'t find a package.json', function() {
         assert.throws(function() {
-            autoPlug('bob')
+            autoPlug('bob');
         }, /Could not find dependencies. Do you have a package.json file in your project?/);
     });
 
@@ -41,13 +41,13 @@ describe('auto-plug', function() {
             autoPlug({
                 prefix: 'bob',
                 config: 'this/path/does/not/exist.json'
-            })
+            });
         }, /Could not require given config file: 'this\/path\/does\/not\/exist.json'/);
     });
 
     it('should throw an error if neither prefix nor pattern and replaceExp options are set', function() {
         assert.throws(function() {
-            autoPlug()
+            autoPlug();
         }, / Neither a prefix option is set, nor replaceExp or pattern options are valid./);
     });
 
@@ -56,7 +56,7 @@ describe('auto-plug', function() {
             autoPlug({
                 pattern: true,
                 replaceExp: true
-            })
+            });
         }, / Neither a prefix option is set, nor replaceExp or pattern options are valid./);
     });
 
