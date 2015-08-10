@@ -15,9 +15,11 @@
     "grunt"
   ],
   "scripts": {
-    "test": "./node_modules/.bin/mocha --reporter spec",
-    "cover": "./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- -R spec",
-    "lint": "./node_modules/.bin/jshint ./lib/index.js"
+    "test": "mocha -R spec",
+    "lint": "jshint ./lib/*.js & jscs ./lib/*.js",
+    "cover": "istanbul cover ./node_modules/.bin/_mocha -- -R spec",
+    "watch": "mocha -R spec -w",
+    "codeclimate": "codeclimate-test-reporter < coverage/lcov.info"
   },
   "repository": {
     "type": "git",
