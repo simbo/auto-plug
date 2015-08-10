@@ -1,3 +1,4 @@
+'use strict';
 
 var assert = require('assert'),
     sinon = require('sinon');
@@ -10,8 +11,8 @@ var autoPlug = (function() {
     };
     var proxyquire = require('proxyquire').noCallThru();
     return proxyquire('..', {
-            'bob-foo': wrapInFunc({ name: 'foo' }),
-            'bob-bar': wrapInFunc({ name: 'bar' }),
+            'bob-foo': wrapInFunc({name: 'foo'}),
+            'bob-bar': wrapInFunc({name: 'bar'}),
             'bob-foo-bar': wrapInFunc({ name: 'foo-bar' }),
             'jack-foo': wrapInFunc({ name: 'jack-foo' }),
             'bob-insert': {
