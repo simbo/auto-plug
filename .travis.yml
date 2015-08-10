@@ -1,18 +1,20 @@
 language: node_js
 node_js:
-- '0.10'
+- '0.12'
 addons:
   code_climate:
     repo_token: 8bf65cf15dd8d5d0808a58637bf8761dcc5caa559fee311ac08702cac95e4866
 deploy:
   provider: npm
   email: simbo@simbo.de
-  api_key:
-    secure: JWgPLi9mUQDfmDdTh3fjqiCLuApyZ5TJnesSTazlG8rFEJtwzNpmj4E8JxQj7poNkJOt3hNqCKmTsPdXEK5jn6A3ZSRoYBMJLxkHgdQIKnyJz5JeAdivwMphWgJl8Mu1pwKKoc1AXDyx1mx1z4XthhEpPIozNWcDKiHrkLWg7PA=
+  api_key: ${NPM_API_KEY}
   on:
     tags: true
     repo: simbo/auto-plug
-    all_branches: true
 after_script:
 - npm run cover
-- cat coverage/lcov.info | ./node_modules/.bin/codeclimate
+- npm run codeclimate
+env:
+  global:
+  - secure: WcEuQUiYuCx7wYg6roi4tTjpnLyIdzr0SA0Atex4IBCL6KhieVZIA6oPRgDe9p3ouj40XfJX6l3dU4+BugLZLjm1syCsriCMDv0fxhoIAG8j6oWDS3DFq1zP0HHB7M7j3ZhQqt4uBrSMwO+y4U0+1zAJ1KLuh4q6mPfML1XglUs=
+  - secure: AWlKdJHZc1uU0ZDMnfKiHx1jN2pcScZOldgVquKbvHu932Qrrpvylr1b2v2qEwpvcMR/uWMHqaGy9VAPtaKdrvTGHV3hbOGFgEtEc+HdsXsnMFsD2ziz7lx5maAOSszvzfrrqfGcxkZZ0g+hTMV81g3BStjIuZKlQ6k278T96ew=
