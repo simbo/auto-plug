@@ -30,6 +30,10 @@
     "url": "https://github.com/simbo/auto-plug/issues"
   },
   "main": "lib/index.js",
+  "files": [
+    "LICENSE",
+    "README.md"
+  ],
   "dependencies": {
     "findup-sync": "^0.2.1",
     "multimatch": "^2.0.0"
