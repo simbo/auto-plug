@@ -123,7 +123,7 @@ You either have to define a 'prefix' or a 'pattern' and 'replaceExp'. All other 
     the config where auto-plug will look for packages to require; can be a plain object or a string containing a path to require
 
   - `requireFn`  
-    (default: `require`)  
+    (default: current package's `require`)  
     the function to be used for requiring packages
 
   - `camelize`  

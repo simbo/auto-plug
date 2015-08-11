@@ -10,7 +10,15 @@ var autoPlug = (function() {
         };
     };
     var proxyquire = require('proxyquire').noCallThru();
-    return proxyquire('..', {
+
+    /* Ensure that our fixture won't be able to findup() */
+    function noFindUp() { return null; }
+    noFindUp['@global'] = true;
+
+    /* Load a dummy module whose require() will have these results,
+       and return an auto-plug function customized for that module
+     */
+    return proxyquire('../fixtures/auto-plug.js', {
             'bob-foo': wrapInFunc({name: 'foo'}),
             'bob-bar': wrapInFunc({name: 'bar'}),
             'bob-foo-bar': wrapInFunc({name: 'foo-bar'}),
@@ -20,7 +28,7 @@ var autoPlug = (function() {
                 'wrap':   wrapInFunc({name: 'insert.wrap'})
             },
             'bob.baz': wrapInFunc({name: 'baz'}),
-            'findup-sync': function() { return null; }
+            'findup-sync': noFindUp
         });
 })();
 
