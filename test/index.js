@@ -27,7 +27,9 @@ var autoPlug = (function() {
 describe('auto-plug', function() {
 
     it('should find parent package\'s package.json and return a plain object', function() {
-        assert({}, require('..')('bob'));
+        assert.deepEqual(
+            {sync:require('findup-sync')}, require('..')('findup')
+        );
     });
 
     it('should throw an error if it can\'t find a package.json', function() {
@@ -83,6 +85,9 @@ var commonTests = function(lazy) {
             }
         });
 
+        assert.deepEqual(
+            Object.keys(ap), ['foo', 'bar', 'insert', 'baz']
+        );
         assert.deepEqual(ap.foo(), {
             name: 'foo'
         });
