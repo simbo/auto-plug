@@ -40,6 +40,26 @@ describe('auto-plug', function() {
         );
     });
 
+    it('should allow setting the module to get default requireFn from', function() {
+        assert.throws(function() {
+            autoPlug({
+                prefix: 'jack',
+                lazy: false,
+                // use our require, so it will fail loading jack-foo
+                module: module, 
+                config:{'dependencies':{'jack-foo': '*'}}
+            });
+        }, /Cannot find module 'jack-foo'/);
+    });
+
+    it('should allow setting the module to get default config from', function() {
+        var ap =  require('..')({
+            prefix: 'jack', lazy: false, module: autoPlug.module
+        });
+        assert.deepEqual({name: 'jack-foo'}, ap.foo());
+    });
+
+
     it('should throw an error if it can\'t find a package.json', function() {
         assert.throws(function() {
             autoPlug('bob');

@@ -2,4 +2,4 @@
    require() instead of the test moudle's require() */
 
 module.exports = require('..');
-
+module.exports.module = module;
