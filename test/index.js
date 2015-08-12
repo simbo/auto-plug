@@ -10,7 +10,15 @@ var autoPlug = (function() {
         };
     };
     var proxyquire = require('proxyquire').noCallThru();
-    return proxyquire('..', {
+
+    /* Ensure that our fixture won't be able to findup() */
+    function noFindUp() { return null; }
+    noFindUp['@global'] = true;
+
+    /* Load a dummy module whose require() will have these results,
+       and return an auto-plug function customized for that module
+     */
+    return proxyquire('../fixtures/auto-plug.js', {
             'bob-foo': wrapInFunc({name: 'foo'}),
             'bob-bar': wrapInFunc({name: 'bar'}),
             'bob-foo-bar': wrapInFunc({name: 'foo-bar'}),
@@ -20,15 +28,37 @@ var autoPlug = (function() {
                 'wrap':   wrapInFunc({name: 'insert.wrap'})
             },
             'bob.baz': wrapInFunc({name: 'baz'}),
-            'findup-sync': function() { return null; }
+            'findup-sync': noFindUp
         });
 })();
 
 describe('auto-plug', function() {
 
     it('should find parent package\'s package.json and return a plain object', function() {
-        assert({}, require('..')('bob'));
+        assert.deepEqual(
+            {sync:require('findup-sync')}, require('..')('findup')
+        );
     });
+
+    it('should allow setting the module to get default requireFn from', function() {
+        assert.throws(function() {
+            autoPlug({
+                prefix: 'jack',
+                lazy: false,
+                // use our require, so it will fail loading jack-foo
+                module: module, 
+                config:{'dependencies':{'jack-foo': '*'}}
+            });
+        }, /Cannot find module 'jack-foo'/);
+    });
+
+    it('should allow setting the module to get default config from', function() {
+        var ap =  require('..')({
+            prefix: 'jack', lazy: false, module: autoPlug.module
+        });
+        assert.deepEqual({name: 'jack-foo'}, ap.foo());
+    });
+
 
     it('should throw an error if it can\'t find a package.json', function() {
         assert.throws(function() {
@@ -83,6 +113,9 @@ var commonTests = function(lazy) {
             }
         });
 
+        assert.deepEqual(
+            Object.keys(ap), ['foo', 'bar', 'insert', 'baz']
+        );
         assert.deepEqual(ap.foo(), {
             name: 'foo'
         });

@@ -118,12 +118,16 @@ You either have to define a 'prefix' or a 'pattern' and 'replaceExp'. All other 
     (default: `['dependencies', 'devDependencies']`)  
     which keys in config object contain packages to require
 
+  - `module`
+    (default: the module that executed `require('auto-plug')`)
+    The module used to find the default `config` and `requireFn` options
+    
   - `config`  
-    (default: current package's package.json data)  
+    (default: `module`'s package.json data)  
     the config where auto-plug will look for packages to require; can be a plain object or a string containing a path to require
 
   - `requireFn`  
-    (default: `require`)  
+    (default: `module.require`)  
     the function to be used for requiring packages
 
   - `camelize`  
@@ -146,8 +150,9 @@ You either have to define a 'prefix' or a 'pattern' and 'replaceExp'. All other 
     pattern: [prefix + '-*', prefix + '.*'],
     replaceExpr: new RegExp('^' + prefix + '(-|\\.)'),
     scope: ['dependencies', 'devDependencies'],
-    config: findup('package.json', {cwd: parentDir}),
-    requireFn: require,
+    module: module.parent, // the module that require()'d auto-plug
+    config: findup('package.json', {cwd: path.dirname(module.filename)}),
+    requireFn: module.require.bind(module),
     camelize: true,
     lazy: true,
     rename: {}
