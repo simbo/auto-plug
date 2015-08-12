@@ -36,7 +36,7 @@ describe('auto-plug', function() {
 
     it('should find parent package\'s package.json and return a plain object', function() {
         assert.deepEqual(
-            {sync:require('findup-sync')}, require('..')('findup')
+            {sync: require('findup-sync')}, require('..')('findup')
         );
     });
 
@@ -46,8 +46,8 @@ describe('auto-plug', function() {
                 prefix: 'jack',
                 lazy: false,
                 // use our require, so it will fail loading jack-foo
-                module: module, 
-                config:{'dependencies':{'jack-foo': '*'}}
+                module: module,
+                config: {'dependencies': {'jack-foo': '*'}}
             });
         }, /Cannot find module 'jack-foo'/);
     });
@@ -58,7 +58,6 @@ describe('auto-plug', function() {
         });
         assert.deepEqual({name: 'jack-foo'}, ap.foo());
     });
-
 
     it('should throw an error if it can\'t find a package.json', function() {
         assert.throws(function() {
