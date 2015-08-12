@@ -43,7 +43,7 @@ var plugins = require('auto-plug')({ prefix: 'foo', lazy: false });
 
 ### with Gulp
 
-Just set the prefix option to 'gulp':
+Just set the prefix option to `gulp`:
 
 ``` javascript
 // Gulpfile.js
@@ -101,7 +101,7 @@ var pkg = require(process.cwd() + '/package.json'),
 
 ## Options
 
-You either have to define a 'prefix' or a 'pattern' and 'replaceExp'. All other options are optional.
+You either have to define a `prefix` or a `pattern` and `replaceExp`. All other options are optional.
 
   - `prefix`  
     can be used to quickly define `pattern` and `replaceExpr` at once (see [default options](#default-options))
