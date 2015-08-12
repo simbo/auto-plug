@@ -18,7 +18,7 @@ var autoPlug = (function() {
     /* Load a dummy module whose require() will have these results,
        and return an auto-plug function customized for that module
      */
-    return proxyquire('../fixtures/auto-plug.js', {
+    return proxyquire('./fixtures/auto-plug.js', {
             'bob-foo': wrapInFunc({name: 'foo'}),
             'bob-bar': wrapInFunc({name: 'bar'}),
             'bob-foo-bar': wrapInFunc({name: 'foo-bar'}),
