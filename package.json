@@ -28,9 +28,10 @@
   "bugs": {
     "url": "https://github.com/simbo/auto-plug/issues"
   },
-  "main": "lib/index.js",
+  "main": "index.js",
   "files": [
-    "lib/index.js",
+    "lib/",
+    "index.js",
     "LICENSE",
     "README.md"
   ],
