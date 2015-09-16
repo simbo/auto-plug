@@ -36,11 +36,11 @@
     "README.md"
   ],
   "dependencies": {
-    "findup-sync": "^0.2.1",
+    "findup-sync": "^0.3.0",
     "multimatch": "^2.0.0"
   },
   "devDependencies": {
-    "codeclimate-test-reporter": "0.1.0",
+    "codeclimate-test-reporter": "0.1.1",
     "istanbul": "^0.3.17",
     "jscs": "^2.0.0",
     "jshint": "^2.8.0",
