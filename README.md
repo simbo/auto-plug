@@ -123,11 +123,11 @@ You either have to define a `prefix` or a `pattern` and `replaceExp`. All other 
     The module used to find the default `config` and `requireFn` options
     
   - `config`  
-    (default: `module`'s package.json data)  
+    (default: `module` option's package.json data)  
     the config where auto-plug will look for packages to require; can be a plain object or a string containing a path to require
 
   - `requireFn`  
-    (default: `module.require`)  
+    (default: `module` option's `require` property)  
     the function to be used for requiring packages
 
   - `camelize`  
@@ -145,16 +145,32 @@ You either have to define a `prefix` or a `pattern` and `replaceExp`. All other 
 
 ### Default options
 
-```javascript
+``` javascript
 {
+    prefix: undefined,
     pattern: [prefix + '-*', prefix + '.*'],
     replaceExpr: new RegExp('^' + prefix + '([\.-])'),
     scope: ['dependencies', 'devDependencies'],
     module: module.parent, // the module that require()'d auto-plug
-    config: findup('package.json', {cwd: path.dirname(module.filename)}),
-    requireFn: module.require.bind(module),
+    config: findup('package.json', {cwd: path.dirname(this.options.module.filename)}),
+    requireFn: this.options.module.require.bind(this.options.module),
     camelize: true,
     lazy: true,
     rename: {}
 }
+```
+
+
+### API Usage
+
+``` javascript
+// get your AutoPlug instance
+var AutoPlug = require('auto-plug').AutoPlug,
+    autoPlug = new AutoPlug('gulp');
+// find matching packages, require them and add them to container
+autoPlug.plug();
+// manually add a package to container
+autoPlug.addPackageToContainer('runSequence');
+// get the container
+var g = autoPlug.getContainer();
 ```
