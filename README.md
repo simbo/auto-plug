@@ -22,11 +22,11 @@ auto-plug
 - [Usage](#usage)
     - [with Gulp](#with-gulp)
     - [with Grunt](#with-grunt)
-    - [with any other thing,...](#with-any-other-thing)
+    - [with any other thing,…](#with-any-other-thing…)
     - [Tip](#tip)
 - [Options](#options)
     - [Default options](#default-options)
-    - [API Usage](#api-usage)
+- [API Usage](#api-usage)
 - [License](#license)
 
 <!-- /MarkdownTOC -->
@@ -90,9 +90,9 @@ module.exports = function (grunt) {
 ```
 
 
-### with any other thing,...
+### with any other thing,…
 
-... i.e. with [Metalsmith](https://github.com/segmentio/metalsmith):
+… i.e. with [Metalsmith](https://github.com/segmentio/metalsmith):
 
 ``` javascript
 var metalsmith = require('metalsmith')
@@ -178,7 +178,7 @@ You either have to define a `prefix` or a `pattern` and `replaceExp`. All other 
 ```
 
 
-### API Usage
+## API Usage
 
 ``` javascript
 // get your AutoPlug instance
