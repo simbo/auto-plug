@@ -111,7 +111,7 @@ You either have to define a `prefix` or a `pattern` and `replaceExp`. All other 
     a globbing pattern to find packages in config for require
 
   - `replaceExpr`  
-    (default: `new RegExp('^' + prefix + '(-|\\.)')`)  
+    (default: `new RegExp('^' + prefix + '([\.-])')`)  
     a regular expression for what shall be removed from a package name when adding to container object
 
   - `scope`  
@@ -148,7 +148,7 @@ You either have to define a `prefix` or a `pattern` and `replaceExp`. All other 
 ```javascript
 {
     pattern: [prefix + '-*', prefix + '.*'],
-    replaceExpr: new RegExp('^' + prefix + '(-|\\.)'),
+    replaceExpr: new RegExp('^' + prefix + '([\.-])'),
     scope: ['dependencies', 'devDependencies'],
     module: module.parent, // the module that require()'d auto-plug
     config: findup('package.json', {cwd: path.dirname(module.filename)}),
