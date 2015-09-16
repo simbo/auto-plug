@@ -15,6 +15,23 @@ auto-plug
 
 ---
 
+
+<!-- MarkdownTOC -->
+
+- [Install](#install)
+- [Usage](#usage)
+    - [with Gulp](#with-gulp)
+    - [with Grunt](#with-grunt)
+    - [with any other thing,...](#with-any-other-thing)
+    - [Tip](#tip)
+- [Options](#options)
+    - [Default options](#default-options)
+    - [API Usage](#api-usage)
+- [License](#license)
+
+<!-- /MarkdownTOC -->
+
+
 ## Install
 
 ``` bash
@@ -174,3 +191,9 @@ autoPlug.addPackageToContainer('runSequence');
 // get the container
 var g = autoPlug.getContainer();
 ```
+
+
+## License
+
+[MIT &copy; 2014 Simon Lepel](http://simbo.mit-license.org/)
+
