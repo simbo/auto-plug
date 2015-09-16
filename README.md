@@ -22,7 +22,7 @@ auto-plug
 - [Usage](#usage)
     - [with Gulp](#with-gulp)
     - [with Grunt](#with-grunt)
-    - [with any other thing,…](#with-any-other-thing…)
+    - [with any other thing](#with-any-other-thing)
     - [Tip](#tip)
 - [Options](#options)
     - [Default options](#default-options)
@@ -90,7 +90,7 @@ module.exports = function (grunt) {
 ```
 
 
-### with any other thing,…
+### with any other thing
 
 … i.e. with [Metalsmith](https://github.com/segmentio/metalsmith):
 
