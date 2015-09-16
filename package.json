@@ -36,6 +36,8 @@
     "README.md"
   ],
   "dependencies": {
+    "arrayify": "^1.0.0",
+    "defined-options": "^0.2.2",
     "findup-sync": "^0.3.0",
     "multimatch": "^2.0.0"
   },

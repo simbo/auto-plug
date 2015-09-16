@@ -9,6 +9,7 @@ var AutoPlug = require('./lib/auto-plug.js');
  */
 module.exports = function(options) {
     var autoPlug = new AutoPlug(options);
+    autoPlug.plug();
     return autoPlug.getContainer();
 };
 

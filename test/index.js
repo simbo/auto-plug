@@ -3,34 +3,34 @@
 var assert = require('assert'),
     sinon = require('sinon');
 
-var autoPlug = (function() {
-    var wrapInFunc = function(value) {
-        return function() {
-            return value;
+var proxiedAutoPlug = (function() {
+        var wrapInFunc = function(value) {
+            return function() {
+                return value;
+            };
         };
-    };
-    var proxyquire = require('proxyquire').noCallThru();
+        var proxyquire = require('proxyquire').noCallThru();
 
-    /* Ensure that our fixture won't be able to findup() */
-    function noFindUp() { return null; }
-    noFindUp['@global'] = true;
+        /* Ensure that our fixture won't be able to findup() */
+        function noFindUp() { return null; }
+        noFindUp['@global'] = true;
 
-    /* Load a dummy module whose require() will have these results,
-       and return an auto-plug function customized for that module
-     */
-    return proxyquire('./fixtures/auto-plug.js', {
-            'bob-foo': wrapInFunc({name: 'foo'}),
-            'bob-bar': wrapInFunc({name: 'bar'}),
-            'bob-foo-bar': wrapInFunc({name: 'foo-bar'}),
-            'jack-foo': wrapInFunc({name: 'jack-foo'}),
-            'bob-insert': {
-                'append':  wrapInFunc({name: 'insert.append'}),
-                'wrap':   wrapInFunc({name: 'insert.wrap'})
-            },
-            'bob.baz': wrapInFunc({name: 'baz'}),
-            'findup-sync': noFindUp
-        });
-})();
+        /* Load a dummy module whose require() will have these results,
+           and return an auto-plug function customized for that module
+         */
+        return proxyquire('./fixtures/proxied-auto-plug.js', {
+                'bob-foo': wrapInFunc({name: 'foo'}),
+                'bob-bar': wrapInFunc({name: 'bar'}),
+                'bob-foo-bar': wrapInFunc({name: 'foo-bar'}),
+                'jack-foo': wrapInFunc({name: 'jack-foo'}),
+                'bob-insert': {
+                    'append':  wrapInFunc({name: 'insert.append'}),
+                    'wrap':   wrapInFunc({name: 'insert.wrap'})
+                },
+                'bob.baz': wrapInFunc({name: 'baz'}),
+                'findup-sync': noFindUp
+            });
+    })();
 
 describe('auto-plug', function() {
 
@@ -42,7 +42,7 @@ describe('auto-plug', function() {
 
     it('should allow setting the module to get default requireFn from', function() {
         assert.throws(function() {
-            autoPlug({
+            proxiedAutoPlug({
                 prefix: 'jack',
                 lazy: false,
                 // use our require, so it will fail loading jack-foo
@@ -54,39 +54,40 @@ describe('auto-plug', function() {
 
     it('should allow setting the module to get default config from', function() {
         var ap =  require('..')({
-            prefix: 'jack', lazy: false, module: autoPlug.module
+            prefix: 'jack', lazy: false, module: proxiedAutoPlug.module
         });
         assert.deepEqual({name: 'jack-foo'}, ap.foo());
     });
 
     it('should throw an error if it can\'t find a package.json', function() {
         assert.throws(function() {
-            autoPlug('bob');
-        }, /Could not find dependencies. Do you have a package.json file in your project?/);
+            proxiedAutoPlug('bob');
+        }, /AutoPlug options are not valid: config/);
     });
 
     it('should throw an error if it can\'t find given config file', function() {
         assert.throws(function() {
-            autoPlug({
+            proxiedAutoPlug({
                 prefix: 'bob',
                 config: 'this/path/does/not/exist.json'
             });
-        }, /Could not require given config file: 'this\/path\/does\/not\/exist.json'/);
+        }, /Cannot find module 'this\/path\/does\/not\/exist.json'/);
     });
 
     it('should throw an error if neither prefix nor pattern and replaceExp options are set', function() {
+        var err = /AutoPlug options are not valid: prefix, pattern, replaceExp/;
         assert.throws(function() {
-            autoPlug();
-        }, / Neither a prefix option is set, nor replaceExp or pattern options are valid./);
-    });
-
-    it('should throw an error if neither a prefix option is set nor pattern and replaceExp options are valid', function() {
-        assert.throws(function() {
-            autoPlug({
-                pattern: true,
-                replaceExp: true
+            proxiedAutoPlug({
+                config: {}
             });
-        }, / Neither a prefix option is set, nor replaceExp or pattern options are valid./);
+        }, err);
+        assert.throws(function() {
+            proxiedAutoPlug({
+                pattern: true,
+                replaceExp: true,
+                config: {}
+            });
+        }, err);
     });
 
     it('should accept a single string as quick configuration', function() {
@@ -99,7 +100,7 @@ describe('auto-plug', function() {
 var commonTests = function(lazy) {
 
     it('should automagically load packages as defined', function() {
-        var ap = autoPlug({
+        var ap = proxiedAutoPlug({
             prefix: 'bob',
             lazy: lazy,
             config: {
@@ -133,7 +134,7 @@ var commonTests = function(lazy) {
     });
 
     it('should accept a plain object with prefix param as quick configuration', function() {
-        var ap = autoPlug({
+        var ap = proxiedAutoPlug({
             lazy: lazy,
             prefix: 'jack',
             config: {
@@ -150,17 +151,17 @@ var commonTests = function(lazy) {
     });
 
     it('should accept a a pattern override', function() {
-        var ap = autoPlug({
-            lazy: lazy,
-            pattern: 'jack-*',
-            replaceExp: /^jack(-|\.)/,
-            config: {
-                dependencies: {
-                    'jack-foo': '1.0.0',
-                    'bob-bar': '*'
+        var ap = proxiedAutoPlug({
+                lazy: lazy,
+                pattern: 'jack-*',
+                replaceExp: /^jack(-|\.)/,
+                config: {
+                    dependencies: {
+                        'jack-foo': '1.0.0',
+                        'bob-bar': '*'
+                    }
                 }
-            }
-        });
+            });
         assert.deepEqual(ap.foo(), {
             name: 'jack-foo'
         });
@@ -168,7 +169,7 @@ var commonTests = function(lazy) {
     });
 
     it('should allow camelizing to be turned off', function() {
-        var ap = autoPlug({
+        var ap = proxiedAutoPlug({
             prefix: 'bob',
             lazy: lazy,
             camelize: false,
@@ -184,7 +185,7 @@ var commonTests = function(lazy) {
     });
 
     it('should camelize plugin names by default', function() {
-        var ap = autoPlug({
+        var ap = proxiedAutoPlug({
             prefix: 'bob',
             lazy: lazy,
             config: {
@@ -199,7 +200,7 @@ var commonTests = function(lazy) {
     });
 
     it('should allow something to be completely renamed', function() {
-        var ap = autoPlug({
+        var ap = proxiedAutoPlug({
             prefix: 'bob',
             lazy: lazy,
             config: {
@@ -217,7 +218,7 @@ var commonTests = function(lazy) {
     });
 
     it('should allow a scope override', function() {
-        var ap = autoPlug({
+        var ap = proxiedAutoPlug({
             prefix: 'bob',
             lazy: lazy,
             config: {
@@ -242,7 +243,7 @@ describe('auto-plug (without lazy loading)', function() {
     var ap, spy;
     before(function() {
         spy = sinon.spy();
-        ap = autoPlug({
+        ap = proxiedAutoPlug({
             prefix: 'bob',
             lazy: false,
             config: {
@@ -266,7 +267,7 @@ describe('auto-plug (with lazy loading)', function() {
     var ap, spy;
     before(function() {
         spy = sinon.spy();
-        ap = autoPlug({
+        ap = proxiedAutoPlug({
             prefix: 'bob',
             lazy: true,
             config: {
